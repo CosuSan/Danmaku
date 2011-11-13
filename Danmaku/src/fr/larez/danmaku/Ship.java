@@ -11,7 +11,7 @@ import fr.larez.danmaku.utils.MathUtils;
 /**
  * The ship, i.e. the Entity controlled by the player.
  */
-public class Ship implements Entity {
+public class Ship extends Entity {
 
     /**
      * Ship movement speed, in pixels per simulation step.
@@ -21,7 +21,8 @@ public class Ship implements Entity {
     static final float HALFWIDTH = 16.f;
     static final float HALFHEIGHT = 16.f;
 
-    private float m_PosX, m_PosY;
+    static final float HALFCOLWIDTH = 3.f;
+    static final float HALFCOLHEIGHT = 3.f;
 
     private long m_LastStraitBullets = 0;
     private long m_LastHomingBullets = 0;
@@ -33,7 +34,7 @@ public class Ship implements Entity {
     }
 
     @Override
-    public boolean update(long simuTime)
+    public void update(long simuTime)
     {
         // Movement
         if(Keyboard.isKeyDown(Keyboard.KEY_LEFT))
@@ -71,7 +72,7 @@ public class Ship implements Entity {
                 float sqDist = 99999999.f;
                 for(Entity target : Application.entities())
                 {
-                    if(target.type() != Entity.EType.ENEMY)
+                    if((target.type() & Entity.ENEMY) == 0)
                         continue;
                     Point2D t = target.position();
                     float sq = MathUtils.square((float)t.getX() - m_PosX) + MathUtils.square((float)t.getY() - m_PosY);
@@ -84,7 +85,10 @@ public class Ship implements Entity {
             }
         }
 
-        return true;
+        // Collision
+        Entity other = Application.collide(this, Entity.ENEMY_BULLET);
+        if(other != null)
+            Application.shipDies();
     }
 
     @Override
@@ -98,20 +102,14 @@ public class Ship implements Entity {
     @Override
     public Rectangle2D boundingBox()
     {
-        return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
+        return new Rectangle2D.Float(m_PosX - HALFCOLWIDTH, m_PosY - HALFCOLHEIGHT,
+                2.f*HALFCOLWIDTH, 2.f*HALFCOLHEIGHT);
     }
 
     @Override
-    public Point2D position()
+    public long type()
     {
-        return new Point2D.Float(m_PosX, m_PosY);
-    }
-
-    @Override
-    public EType type()
-    {
-        return Entity.EType.SHIP;
+        return Entity.SHIP;
     }
 
 }

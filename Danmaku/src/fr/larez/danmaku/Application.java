@@ -23,7 +23,7 @@ import fr.larez.danmaku.utils.DrawingUtils;
 public class Application {
 
     /**
-     * The fixed timestep of the simulation.
+     * The fixed time step of the simulation.
      *
      * 20ms = 50 frames per second.
      */
@@ -34,7 +34,7 @@ public class Application {
      *
      * 100 images per second.
      */
-    public static final int RENDER_FPS_LIMIT = 100;
+    public static final int RENDER_FPS_LIMIT = 60;
 
     public static final float FIELD_WIDTH = 500.f;
     public static final float FIELD_HEIGHT = 600.f;
@@ -99,7 +99,7 @@ public class Application {
 
         // FIXME
         // A target for debugging purposes
-        m_Entities.add(new DebugEntity(FIELD_WIDTH*0.8f, 100.f, Entity.EType.ENEMY));
+        m_Entities.add(new SimpleEnemy(FIELD_WIDTH*0.8f));
 
         while (!Display.isCloseRequested())
         {
@@ -115,11 +115,11 @@ public class Application {
                 for(Iterator<Entity> it = m_Entities.iterator(); it.hasNext();)
                 {
                     Entity entity = it.next();
-                    if(!entity.update(simuTime))
+                    entity.update(simuTime);
+                    if(!entity.alive())
                         it.remove();
                 }
-                for(Entity e : m_NewEntities)
-                    m_Entities.add(e);
+                m_Entities.addAll(m_NewEntities);
                 m_NewEntities.clear();
             }
 
@@ -130,6 +130,7 @@ public class Application {
 
             // Black background for the field
             GL11.glColor3f(0.f,0.f,0.f);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
             DrawingUtils.drawRect(0.f, 0.f, FIELD_WIDTH, FIELD_HEIGHT);
 
             GL11.glColor3f(1.f, 1.f, 1.f);
@@ -139,6 +140,9 @@ public class Application {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
 
             DrawingUtils.reset();
+
+            DrawingUtils.drawText(570.f, 100.f, "Score: 9000");
+            DrawingUtils.drawText(570.f, 150.f, "Lives: 9");
 
             Display.update();
 
@@ -172,6 +176,19 @@ public class Application {
     public static Entity getShip()
     {
         return instance.m_Ship;
+    }
+
+    public static Entity collide(Entity entity, long types)
+    {
+        for(Entity other : instance.m_Entities)
+            if((other.type() & types) != 0 && other.boundingBox().intersects(entity.boundingBox()))
+                return other;
+        return null;
+    }
+
+    public static void shipDies()
+    {
+        // TODO : shipDies()
     }
 
     public static void main(String[] argv)

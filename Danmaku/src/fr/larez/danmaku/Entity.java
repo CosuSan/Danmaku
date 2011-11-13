@@ -6,41 +6,53 @@ import java.awt.geom.Rectangle2D;
 /**
  * An Entity, i.e. any kind of object.
  */
-public interface Entity {
+public abstract class Entity {
+
+    public static final long SHIP = 1; // Hit by enemy stuff
+    public static final long ENEMY = 2; // Hit by our stuff
+    public static final long OWN_BULLET = 4; // Hits the enemies
+    public static final long ENEMY_BULLET = 8; // Hits us
+
+    protected boolean m_Alive = true;
+    protected float m_PosX, m_PosY;
 
     /**
      * Execute one simulation step for this Entity.
      * @return false if the Entity is destroyed.
      */
-    boolean update(long simuTime);
+    public abstract void update(long simuTime);
 
     /**
      * Displays this Entity on the screen.
      */
-    void render();
+    public abstract void render();
+
+    /**
+     * Whether this Entity is still alive or has/should be removed.
+     */
+    public final boolean alive()
+    {
+        return m_Alive;
+    }
 
     /**
      * @return The bounding rectangle of this Entity, used for collision
      * detection.
      */
-    Rectangle2D boundingBox();
+    public abstract Rectangle2D boundingBox();
 
     /**
      * @return The position of this Entity (for instance, the center of the
      * bounding rectangle).
      */
-    Point2D position();
-
-    enum EType {
-        SHIP,
-        ENEMY,
-        OWN_BULLET,
-        ENEMY_BULLET
+    public final Point2D position()
+    {
+        return new Point2D.Float(m_PosX, m_PosY);
     }
 
     /**
      * @return The type of this entity (with respect to the player).
      */
-    EType type();
+    public abstract long type();
 
 }
