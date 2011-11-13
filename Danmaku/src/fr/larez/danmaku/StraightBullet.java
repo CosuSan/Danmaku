@@ -4,14 +4,17 @@ import java.awt.geom.Rectangle2D;
 
 import fr.larez.danmaku.utils.DrawingUtils;
 
-public class StraitBullet extends Entity {
+/**
+ * Bullets that are fired from the ship and fly in a straight line.
+ */
+public class StraightBullet extends Entity {
 
     static final float HALFWIDTH = 4.f;
     static final float HALFHEIGHT = 4.f;
 
     private float m_VelX, m_VelY;
 
-    public StraitBullet(float x, float y, float vx, float vy)
+    public StraightBullet(float x, float y, float vx, float vy)
     {
         m_PosX = x;
         m_PosY = y;

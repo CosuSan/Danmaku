@@ -1,6 +1,8 @@
 package fr.larez.danmaku;
 
-
+/**
+ * Base class for the enemies, i.e. stuff that we can hurt.
+ */
 public abstract class Enemy extends Entity {
 
     protected float m_Health;

@@ -62,7 +62,7 @@ public class Application {
         return (Sys.getTime() * 1000) / Sys.getTimerResolution();
     }
 
-    public void start()
+    public void initialize()
     {
         try {
             Display.setDisplayMode(new DisplayMode(800, 600));
@@ -71,14 +71,6 @@ public class Application {
             e.printStackTrace();
             System.exit(0);
         }
-
-        // FPS counter
-        Display.setTitle("Danmaku");
-        long lastFPSUpdate = getTime();
-        long frames = 0;
-
-        // Simulation timing
-        long simuTime = getTime();
 
         // Initialize OpenGL
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -93,13 +85,33 @@ public class Application {
 
         // Load the textures
         TextureManager.loadAll();
+    }
+
+    void start()
+    {
+        initialize();
+
+        // TODO : Some kind of menu (or at least title screen,
+        // i.e. fixed image and "press enter")
+
+        Level[] levels = {new fr.larez.danmaku.level1.Level1()};
+        for(Level level : levels)
+            play(level);
+    }
+
+    void play(Level level)
+    {
+        // FPS counter
+        Display.setTitle("Danmaku");
+        long lastFPSUpdate = getTime();
+        long frames = 0;
+
+        // Simulation timing
+        long lastFrameTime = getTime();
+        long simuTime = 0;
 
         // Setup the ship
         m_Entities.add(m_Ship = new Ship(FIELD_WIDTH*.5f, 550.f));
-
-        // FIXME
-        // A target for debugging purposes
-        m_Entities.add(new SimpleEnemy(FIELD_WIDTH*0.8f));
 
         while (!Display.isCloseRequested())
         {
@@ -108,9 +120,12 @@ public class Application {
             Keyboard.poll();
 
             // Simulation
-            while(now > simuTime + SIMULATION_STEP)
+            while(now > lastFrameTime + SIMULATION_STEP)
             {
+                lastFrameTime += SIMULATION_STEP;
                 simuTime += SIMULATION_STEP;
+
+                level.update(simuTime);
 
                 for(Iterator<Entity> it = m_Entities.iterator(); it.hasNext();)
                 {
@@ -133,16 +148,25 @@ public class Application {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             DrawingUtils.drawRect(0.f, 0.f, FIELD_WIDTH, FIELD_HEIGHT);
 
+            // Level background
+            level.renderBackground(simuTime);
+
+            // Entities
             GL11.glColor3f(1.f, 1.f, 1.f);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             for(Entity entity : m_Entities)
                 entity.render();
             GL11.glDisable(GL11.GL_TEXTURE_2D);
 
+            // Level foreground
+            level.renderForeground(simuTime);
+
             DrawingUtils.reset();
 
             DrawingUtils.drawText(570.f, 100.f, "Score: 9000");
             DrawingUtils.drawText(570.f, 150.f, "Lives: 9");
+            DrawingUtils.drawText(570.f, 300.f, "Sim time: ");
+            DrawingUtils.drawText(570.f, 350.f, String.valueOf(simuTime));
 
             Display.update();
 
@@ -193,7 +217,7 @@ public class Application {
 
     public static void main(String[] argv)
     {
-        Application displayExample = new Application();
-        displayExample.start();
+        Application app = new Application();
+        app.start();
     }
 }

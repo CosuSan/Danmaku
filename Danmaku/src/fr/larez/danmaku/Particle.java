@@ -6,6 +6,11 @@ import org.newdawn.slick.opengl.Texture;
 
 import fr.larez.danmaku.utils.DrawingUtils;
 
+/**
+ * Any kind of particle emitted for graphical purposes.
+ *
+ * Shiny!
+ */
 public class Particle extends Entity {
 
     private Texture m_Texture;

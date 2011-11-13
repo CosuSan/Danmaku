@@ -43,6 +43,11 @@ public class DrawingUtils {
         ttfFont.drawString(x, y, text, Color.white);
     }
 
+    public static void drawText(float x, float y, String text, Color color)
+    {
+        ttfFont.drawString(x, y, text, color);
+    }
+
     public static void translate(float x, float y)
     {
         GL11.glTranslatef(x, y, 0.f);

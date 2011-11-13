@@ -1,9 +1,18 @@
-package fr.larez.danmaku;
+package fr.larez.danmaku.level1;
 
 import java.awt.geom.Rectangle2D;
 
+import fr.larez.danmaku.Application;
+import fr.larez.danmaku.Enemy;
+import fr.larez.danmaku.Entity;
+import fr.larez.danmaku.TextureManager;
 import fr.larez.danmaku.utils.DrawingUtils;
 
+/**
+ * A simple enemy used in the first level.
+ *
+ * This enemy doesn't shoot at the player but can still collision with him.
+ */
 public class SimpleEnemy extends Enemy {
 
     static final float HALFWIDTH = 8.f;

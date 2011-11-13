@@ -4,7 +4,12 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-
+/**
+ * The texture manager, containing all the textures.
+ *
+ * It initially loads all the needed textures, which can then be accessed from
+ * other classes.
+ */
 public class TextureManager {
 
     private static boolean init = false;

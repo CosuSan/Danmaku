@@ -5,6 +5,9 @@ import java.awt.geom.Rectangle2D;
 
 import fr.larez.danmaku.utils.DrawingUtils;
 
+/**
+ * Bullets that are fired from the ship and automatically follow an Entity.
+ */
 public class HomingBullet extends Entity {
 
     static final float HALFWIDTH = 8.f;
