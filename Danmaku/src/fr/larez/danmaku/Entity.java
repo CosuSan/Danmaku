@@ -12,7 +12,7 @@ public interface Entity {
      * Execute one simulation step for this Entity.
      * @return false if the Entity is destroyed.
      */
-    boolean update();
+    boolean update(long simuTime);
 
     /**
      * Displays this Entity on the screen.
@@ -30,5 +30,17 @@ public interface Entity {
      * bounding rectangle).
      */
     Point2D position();
+
+    enum EType {
+        SHIP,
+        ENEMY,
+        OWN_BULLET,
+        ENEMY_BULLET
+    }
+
+    /**
+     * @return The type of this entity (with respect to the player).
+     */
+    EType type();
 
 }
