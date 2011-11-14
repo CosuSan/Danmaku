@@ -64,7 +64,7 @@ public class HomingBullet extends Entity {
         Entity other = Application.collide(this, Entity.ENEMY);
         if(other != null)
         {
-            ((Enemy)other).harm(10.f);
+            ((Enemy)other).harm(5.f);
             m_Alive = false;
             for(int i = 0; i < 10; ++i)
                 Application.addEntity(new Particle(TextureManager.smallParticle,

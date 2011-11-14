@@ -43,7 +43,7 @@ public class Level1 extends Level {
         	Application.addEntity(new FiringEnemy(Application.FIELD_WIDTH*0.6f));
         else if(simuTime == 11000)
         	Application.addEntity(new FiringEnemy(Application.FIELD_WIDTH*0.2f));
-        else if(simuTime == 20000)
+        else if(simuTime == 30000)
             m_Finished = true;
     }
 

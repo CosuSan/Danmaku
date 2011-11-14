@@ -230,7 +230,7 @@ public class Application {
             }
         }
     }
-    
+
     public static long simulatedTime()
     {
     	return instance.m_SimuTime;
@@ -268,7 +268,7 @@ public class Application {
     {
         instance.m_ShipDies = true;
     }
-    
+
     public static void gainPoints(int points)
     {
     	if(points >= 0 || points + instance.m_Score >= 0)

@@ -18,11 +18,11 @@ public class Ship extends Entity {
      */
     static final float MOVE_SPEED = 3.f;
 
-    static final float HALFWIDTH = 16.f;
-    static final float HALFHEIGHT = 16.f;
+    static final float HALFWIDTH = 32.f;
+    static final float HALFHEIGHT = 32.f;
 
-    static final float HALFCOLWIDTH = 3.f;
-    static final float HALFCOLHEIGHT = 3.f;
+    // Relative to the center
+    private static final Rectangle2D COLLISION = new Rectangle2D.Float(-3.f, 1.f, 6.f, 6.f);
 
     private long m_LastStraitBullets = 0;
     private long m_LastHomingBullets = 0;
@@ -66,8 +66,8 @@ public class Ship extends Entity {
         {
             if(simuTime > m_LastStraitBullets + 198)
             {
-                Application.addEntity(new StraightBullet(m_PosX - 3.f, m_PosY, -0.3f, -15.f));
-                Application.addEntity(new StraightBullet(m_PosX + 3.f, m_PosY, +0.3f, -15.f));
+                Application.addEntity(new StraightBullet(m_PosX - 3.f, m_PosY - 30.f, -0.3f, -15.f));
+                Application.addEntity(new StraightBullet(m_PosX + 3.f, m_PosY - 30.f, +0.3f, -15.f));
                 m_LastStraitBullets = simuTime;
                 Application.gainPoints(2);
                 // Yeah, we gain points for shooting, because WHY NOT!?
@@ -84,10 +84,13 @@ public class Ship extends Entity {
                     Point2D t = target.position();
                     float sq = MathUtils.square((float)t.getX() - m_PosX) + MathUtils.square((float)t.getY() - m_PosY);
                     if(sq < sqDist)
+                    {
                         best = target;
+                        sqDist = sq;
+                    }
                 }
-                Application.addEntity(new HomingBullet(m_PosX - 6.f, m_PosY, -4.f, -10.f, best));
-                Application.addEntity(new HomingBullet(m_PosX + 6.f, m_PosY, +4.f, -10.f, best));
+                Application.addEntity(new HomingBullet(m_PosX - 19.f, m_PosY - 6.f, -4.f, -10.f, best));
+                Application.addEntity(new HomingBullet(m_PosX + 19.f, m_PosY - 6.f, +4.f, -10.f, best));
                 m_LastHomingBullets = simuTime;
             }
         }
@@ -120,8 +123,11 @@ public class Ship extends Entity {
     @Override
     public Rectangle2D boundingBox()
     {
-        return new Rectangle2D.Float(m_PosX - HALFCOLWIDTH, m_PosY - HALFCOLHEIGHT,
-                2.f*HALFCOLWIDTH, 2.f*HALFCOLHEIGHT);
+        return new Rectangle2D.Float(
+        		m_PosX + (float)COLLISION.getX(),
+        		m_PosY + (float)COLLISION.getY(),
+        		(float)COLLISION.getWidth(),
+        		(float)COLLISION.getHeight());
     }
 
     @Override

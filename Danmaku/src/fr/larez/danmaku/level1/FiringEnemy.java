@@ -27,7 +27,7 @@ public class FiringEnemy extends Enemy {
 
     public FiringEnemy(float x)
     {
-        super(108.f);
+        super(198.f);
         m_PosX = x;
         m_PosY = -HALFHEIGHT - 2.f;
     }
@@ -37,10 +37,12 @@ public class FiringEnemy extends Enemy {
     {
     	if(m_PosY <= 100.f)
     		m_PosY += 2.f;
+    	else if(m_PosY <= 450.f)
+    		m_PosY += 0.5f;
     	else
-    		m_PosY += 0.8f;
+    		m_PosY += 4.f;
 
-        if(m_PosY >= 100.f && m_PosY <= 450.f && simuTime >= m_LastFired + 2500)
+        if(m_PosY >= 100.f && m_PosY <= 400.f && simuTime >= m_LastFired + 2500)
         {
         	for(float a = 0.f; a <= 1.99f*Math.PI; a += 0.125f*Math.PI)
         	{
