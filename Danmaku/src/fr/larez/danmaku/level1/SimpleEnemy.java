@@ -25,7 +25,7 @@ public class SimpleEnemy extends Enemy {
 
     public SimpleEnemy(float x)
     {
-        super(30.f);
+        super(18.f);
         m_PosX = x;
         m_PosY = -HALFHEIGHT - 2.f;
     }

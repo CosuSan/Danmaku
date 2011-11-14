@@ -29,16 +29,18 @@ public class Level1 extends Level {
             Application.addEntity(new SimpleEnemy(Application.FIELD_WIDTH*0.8f));
             Application.addEntity(new SimpleEnemy(Application.FIELD_WIDTH*0.2f));
         }
-        if(simuTime == 8000)
+        else if(simuTime == 8000)
         {
             Application.addEntity(new SimpleEnemy(Application.FIELD_WIDTH*0.78f));
             Application.addEntity(new SimpleEnemy(Application.FIELD_WIDTH*0.22f));
         }
-        if(simuTime == 8500)
+        else if(simuTime == 8500)
         {
             Application.addEntity(new SimpleEnemy(Application.FIELD_WIDTH*0.76f));
             Application.addEntity(new SimpleEnemy(Application.FIELD_WIDTH*0.24f));
         }
+        else if(simuTime == 15000)
+            m_Finished = true;
     }
 
     @Override

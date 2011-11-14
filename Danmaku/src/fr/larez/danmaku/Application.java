@@ -13,6 +13,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import fr.larez.danmaku.utils.DrawingUtils;
+import fr.larez.danmaku.utils.MathUtils;
 
 /**
  * Main class.
@@ -36,6 +37,11 @@ public class Application {
      */
     public static final int RENDER_FPS_LIMIT = 60;
 
+    /**
+     * Invulnerability time after a hit.
+     */
+    public static final int INVULN_ON_HIT = 4000;
+
     public static final float FIELD_WIDTH = 500.f;
     public static final float FIELD_HEIGHT = 600.f;
 
@@ -44,6 +50,14 @@ public class Application {
     private Ship m_Ship;
 
     private static Application instance = null;
+
+    private long m_SimuTime;
+
+    private long m_LastHit;
+    private boolean m_ShipDies = false;
+
+    private int m_NbLives = 9;
+    private int m_Score = 0;
 
     Application()
     {
@@ -96,11 +110,24 @@ public class Application {
 
         Level[] levels = {new fr.larez.danmaku.level1.Level1()};
         for(Level level : levels)
+        {
             play(level);
+            if(Display.isCloseRequested())
+            {
+                Display.destroy();
+                return ;
+            }
+            else if(m_NbLives <= 0)
+                break;
+        }
+
+        // TODO : Game over screen, with score
     }
 
     void play(Level level)
     {
+        m_Entities.clear();
+
         // FPS counter
         Display.setTitle("Danmaku");
         long lastFPSUpdate = getTime();
@@ -108,14 +135,25 @@ public class Application {
 
         // Simulation timing
         long lastFrameTime = getTime();
-        long simuTime = 0;
+        m_SimuTime = 0;
+
+        m_LastHit = -99999;
 
         // Setup the ship
-        m_Entities.add(m_Ship = new Ship(FIELD_WIDTH*.5f, 550.f));
+        m_Entities.add(m_Ship = new Ship());
 
-        while (!Display.isCloseRequested())
+        while (!Display.isCloseRequested() && !level.finished() && m_NbLives > 0)
         {
             long now = getTime();
+
+            if(m_ShipDies)
+            {
+                m_NbLives--;
+                m_LastHit = m_SimuTime;
+                instance.m_Entities.remove(m_Ship);
+                m_Entities.add(m_Ship = new Ship());
+                m_ShipDies = false;
+            }
 
             Keyboard.poll();
 
@@ -123,14 +161,14 @@ public class Application {
             while(now > lastFrameTime + SIMULATION_STEP)
             {
                 lastFrameTime += SIMULATION_STEP;
-                simuTime += SIMULATION_STEP;
+                m_SimuTime += SIMULATION_STEP;
 
-                level.update(simuTime);
+                level.update(m_SimuTime);
 
                 for(Iterator<Entity> it = m_Entities.iterator(); it.hasNext();)
                 {
                     Entity entity = it.next();
-                    entity.update(simuTime);
+                    entity.update(m_SimuTime);
                     if(!entity.alive())
                         it.remove();
                 }
@@ -149,7 +187,7 @@ public class Application {
             DrawingUtils.drawRect(0.f, 0.f, FIELD_WIDTH, FIELD_HEIGHT);
 
             // Level background
-            level.renderBackground(simuTime);
+            level.renderBackground(m_SimuTime);
 
             // Entities
             GL11.glColor3f(1.f, 1.f, 1.f);
@@ -158,15 +196,23 @@ public class Application {
                 entity.render();
             GL11.glDisable(GL11.GL_TEXTURE_2D);
 
+            // White screen on death
+            if(m_LastHit + 1000 > m_SimuTime)
+            {
+                float alpha = 1.f - MathUtils.square((m_SimuTime - m_LastHit)*1.E-3f);
+                GL11.glColor4f(1.f, 1.f, 1.f, alpha);
+                DrawingUtils.drawRect(0.f, 0.f, FIELD_WIDTH, FIELD_HEIGHT);
+            }
+
             // Level foreground
-            level.renderForeground(simuTime);
+            level.renderForeground(m_SimuTime);
 
             DrawingUtils.reset();
 
-            DrawingUtils.drawText(570.f, 100.f, "Score: 9000");
-            DrawingUtils.drawText(570.f, 150.f, "Lives: 9");
+            DrawingUtils.drawText(570.f, 100.f, "Score: " + m_Score);
+            DrawingUtils.drawText(570.f, 150.f, "Lives: " + m_NbLives);
             DrawingUtils.drawText(570.f, 300.f, "Sim time: ");
-            DrawingUtils.drawText(570.f, 350.f, String.valueOf(simuTime));
+            DrawingUtils.drawText(570.f, 350.f, String.valueOf(m_SimuTime));
 
             Display.update();
 
@@ -183,8 +229,11 @@ public class Application {
                 frames = 0;
             }
         }
-
-        Display.destroy();
+    }
+    
+    public static long simulatedTime()
+    {
+    	return instance.m_SimuTime;
     }
 
     public static Collection<Entity> entities()
@@ -210,9 +259,20 @@ public class Application {
         return null;
     }
 
+    public static long lastHit()
+    {
+        return instance.m_LastHit;
+    }
+
     public static void shipDies()
     {
-        // TODO : shipDies()
+        instance.m_ShipDies = true;
+    }
+    
+    public static void gainPoints(int points)
+    {
+    	if(points >= 0 || points + instance.m_Score >= 0)
+    		instance.m_Score += points;
     }
 
     public static void main(String[] argv)

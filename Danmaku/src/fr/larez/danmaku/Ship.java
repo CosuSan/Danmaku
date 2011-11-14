@@ -27,10 +27,15 @@ public class Ship extends Entity {
     private long m_LastStraitBullets = 0;
     private long m_LastHomingBullets = 0;
 
-    Ship(float x, float y)
+    Ship()
     {
-        m_PosX = x;
-        m_PosY = y;
+        reset();
+    }
+
+    void reset()
+    {
+        m_PosX = Application.FIELD_WIDTH*.5f;
+        m_PosY = 550.f;
     }
 
     @Override
@@ -88,15 +93,26 @@ public class Ship extends Entity {
         // Collision
         Entity other = Application.collide(this, Entity.ENEMY_BULLET);
         if(other != null)
+            hit(simuTime);
+    }
+
+    private void hit(long simuTime)
+    {
+        if(Application.lastHit() + Application.INVULN_ON_HIT < simuTime)
             Application.shipDies();
     }
 
     @Override
     public void render()
     {
-        TextureManager.ship.bind();
-        DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
+    	// Blinking (period=200ms) when invulnerable
+    	if( (Application.lastHit() + Application.INVULN_ON_HIT < Application.simulatedTime())
+    	 || ( (Application.simulatedTime()/200) % 2 == 0) )
+    	{
+	        TextureManager.ship.bind();
+	        DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
+	                m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
+    	}
     }
 
     @Override

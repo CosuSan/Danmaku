@@ -11,6 +11,8 @@ public abstract class Level {
     private String m_Name;
     private String m_Description;
 
+    protected boolean m_Finished = false;
+
     public Level(String name, String description)
     {
         m_Name = name;
@@ -35,6 +37,11 @@ public abstract class Level {
 
     public void renderForeground(long simuTime)
     {
+    }
+
+    public final boolean finished()
+    {
+        return m_Finished;
     }
 
 }
