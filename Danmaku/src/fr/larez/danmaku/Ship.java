@@ -69,6 +69,8 @@ public class Ship extends Entity {
                 Application.addEntity(new StraightBullet(m_PosX - 3.f, m_PosY, -0.3f, -15.f));
                 Application.addEntity(new StraightBullet(m_PosX + 3.f, m_PosY, +0.3f, -15.f));
                 m_LastStraitBullets = simuTime;
+                Application.gainPoints(2);
+                // Yeah, we gain points for shooting, because WHY NOT!?
             }
             if(simuTime > m_LastHomingBullets + 498)
             {

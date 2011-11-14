@@ -37,6 +37,7 @@ public class SimpleEnemy extends Enemy {
         if(dying())
         {
             // TODO : Spawn some shiny particles
+            Application.gainPoints(10);
             m_Alive = false;
         }
         else if(m_PosY > Application.FIELD_HEIGHT + HALFHEIGHT)
