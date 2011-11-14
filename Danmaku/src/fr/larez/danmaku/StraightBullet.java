@@ -9,8 +9,8 @@ import fr.larez.danmaku.utils.DrawingUtils;
  */
 public class StraightBullet extends Entity {
 
-    static final float HALFWIDTH = 4.f;
-    static final float HALFHEIGHT = 4.f;
+    private static final float HALFWIDTH = 4.0f;
+    private static final float HALFHEIGHT = 4.0f;
 
     private float m_VelX, m_VelY;
 
@@ -30,8 +30,8 @@ public class StraightBullet extends Entity {
         m_PosY += m_VelY;
 
         // Death
-        if(m_PosX < 0 || m_PosX >= Application.FIELD_WIDTH
-        || m_PosY < 0 || m_PosY >= Application.FIELD_HEIGHT)
+        if(m_PosX < 0.0f || m_PosX >= Application.FIELD_WIDTH
+        || m_PosY < 0.0f || m_PosY >= Application.FIELD_HEIGHT)
         {
             m_Alive = false; // Remove this entity
             return ;
@@ -41,11 +41,11 @@ public class StraightBullet extends Entity {
         Entity other = Application.collide(this, Entity.ENEMY);
         if(other != null)
         {
-            ((Enemy)other).harm(10.f);
+            ((Enemy)other).harm(10.0f);
             m_Alive = false;
             for(int i = 0; i < 10; ++i)
                 Application.addEntity(new Particle(TextureManager.smallParticle,
-                        m_PosX, m_PosY, 4.f * ((float)Math.random()-.5f), 4.f * ((float)Math.random()-.5f), 20));
+                        m_PosX, m_PosY, 4.0f * ((float)Math.random()-0.5f), 4.0f * ((float)Math.random()-0.5f), 20));
             return ;
         }
     }
@@ -61,7 +61,7 @@ public class StraightBullet extends Entity {
     public Rectangle2D boundingBox()
     {
         return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                2.f*HALFWIDTH, 2.f*HALFHEIGHT);
+                2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
     }
 
     @Override

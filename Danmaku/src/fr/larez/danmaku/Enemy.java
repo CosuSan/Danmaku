@@ -19,7 +19,7 @@ public abstract class Enemy extends Entity {
 
     protected boolean dying()
     {
-        return m_Health <= 0.f;
+        return m_Health <= 0.0f;
     }
 
     @Override

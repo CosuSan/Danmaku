@@ -42,8 +42,8 @@ public class Application {
      */
     public static final int INVULN_ON_HIT = 4000;
 
-    public static final float FIELD_WIDTH = 500.f;
-    public static final float FIELD_HEIGHT = 600.f;
+    public static final float FIELD_WIDTH = 500.0f;
+    public static final float FIELD_HEIGHT = 600.0f;
 
     private final List<Entity> m_Entities = new LinkedList<Entity>();
     private final List<Entity> m_NewEntities = new LinkedList<Entity>();
@@ -89,13 +89,13 @@ public class Application {
         // Initialize OpenGL
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 600, 0, 1, -1);
+        GL11.glOrtho(0.0, 800.0, 600.0, 0.0, 1.0, -1.0);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        GL11.glClearColor(0.f, 0.f, 0.2f, 1.f);
+        GL11.glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
 
         // Load the textures
         TextureManager.loadAll();
@@ -179,18 +179,18 @@ public class Application {
             // Clear the screen and depth buffer
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-            DrawingUtils.translate(50.f, 0.f);
+            DrawingUtils.translate(50.0f, 0.0f);
 
             // Black background for the field
-            GL11.glColor3f(0.f,0.f,0.f);
+            GL11.glColor3f(0.0f, 0.0f, 0.0f);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
-            DrawingUtils.drawRect(0.f, 0.f, FIELD_WIDTH, FIELD_HEIGHT);
+            DrawingUtils.drawRect(0.0f, 0.0f, FIELD_WIDTH, FIELD_HEIGHT);
 
             // Level background
             level.renderBackground(m_SimuTime);
 
             // Entities
-            GL11.glColor3f(1.f, 1.f, 1.f);
+            GL11.glColor3f(1.0f, 1.0f, 1.0f);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             for(Entity entity : m_Entities)
                 entity.render();
@@ -199,9 +199,9 @@ public class Application {
             // White screen on death
             if(m_LastHit + 1000 > m_SimuTime)
             {
-                float alpha = 1.f - MathUtils.square((m_SimuTime - m_LastHit)*1.E-3f);
-                GL11.glColor4f(1.f, 1.f, 1.f, alpha);
-                DrawingUtils.drawRect(0.f, 0.f, FIELD_WIDTH, FIELD_HEIGHT);
+                float alpha = 1.0f - MathUtils.square((m_SimuTime - m_LastHit)*1.0E-3f);
+                GL11.glColor4f(1.0f, 1.0f, 1.0f, alpha);
+                DrawingUtils.drawRect(0.0f, 0.0f, FIELD_WIDTH, FIELD_HEIGHT);
             }
 
             // Level foreground
@@ -209,10 +209,10 @@ public class Application {
 
             DrawingUtils.reset();
 
-            DrawingUtils.drawText(570.f, 100.f, "Score: " + m_Score);
-            DrawingUtils.drawText(570.f, 150.f, "Lives: " + m_NbLives);
-            DrawingUtils.drawText(570.f, 300.f, "Sim time: ");
-            DrawingUtils.drawText(570.f, 350.f, String.valueOf(m_SimuTime));
+            DrawingUtils.drawText(570.0f, 100.0f, "Score: " + m_Score);
+            DrawingUtils.drawText(570.0f, 150.0f, "Lives: " + m_NbLives);
+            DrawingUtils.drawText(570.0f, 300.0f, "Sim time: ");
+            DrawingUtils.drawText(570.0f, 350.0f, String.valueOf(m_SimuTime));
 
             Display.update();
 
@@ -233,7 +233,7 @@ public class Application {
 
     public static long simulatedTime()
     {
-    	return instance.m_SimuTime;
+        return instance.m_SimuTime;
     }
 
     public static Collection<Entity> entities()
@@ -271,8 +271,8 @@ public class Application {
 
     public static void gainPoints(int points)
     {
-    	if(points >= 0 || points + instance.m_Score >= 0)
-    		instance.m_Score += points;
+        if(points >= 0 || points + instance.m_Score >= 0)
+            instance.m_Score += points;
     }
 
     public static void main(String[] argv)

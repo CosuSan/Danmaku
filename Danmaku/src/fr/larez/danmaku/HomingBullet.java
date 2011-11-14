@@ -10,8 +10,8 @@ import fr.larez.danmaku.utils.DrawingUtils;
  */
 public class HomingBullet extends Entity {
 
-    static final float HALFWIDTH = 8.f;
-    static final float HALFHEIGHT = 8.f;
+    private static final float HALFWIDTH = 8.0f;
+    private static final float HALFHEIGHT = 8.0f;
 
     private float m_VelX, m_VelY;
     private Entity m_Target;
@@ -37,11 +37,11 @@ public class HomingBullet extends Entity {
             float y = (float)targetPos.getY() - m_PosY;
 
             float d = x*x + y*y;
-            if(d > 100.f)
+            if(d > 100.0f)
             {
                 d = (float)Math.sqrt(d);
-                x *= 10.f/d;
-                y *= 10.f/d;
+                x *= 10.0f/d;
+                y *= 10.0f/d;
             }
 
             m_VelX = 0.8f*m_VelX + 0.2f*x;
@@ -53,8 +53,8 @@ public class HomingBullet extends Entity {
         m_PosY += m_VelY;
 
         // Death
-        if(m_PosX < 0 || m_PosX >= Application.FIELD_WIDTH
-        || m_PosY < 0 || m_PosY >= Application.FIELD_HEIGHT)
+        if(m_PosX < 0.0f || m_PosX >= Application.FIELD_WIDTH
+        || m_PosY < 0.0f || m_PosY >= Application.FIELD_HEIGHT)
         {
            m_Alive = false; // Remove this entity
            return ;
@@ -64,11 +64,11 @@ public class HomingBullet extends Entity {
         Entity other = Application.collide(this, Entity.ENEMY);
         if(other != null)
         {
-            ((Enemy)other).harm(5.f);
+            ((Enemy)other).harm(5.0f);
             m_Alive = false;
             for(int i = 0; i < 10; ++i)
                 Application.addEntity(new Particle(TextureManager.smallParticle,
-                        m_PosX, m_PosY, 4.f * ((float)Math.random()-.5f), 4.f * ((float)Math.random()-.5f), 20));
+                        m_PosX, m_PosY, 4.0f * ((float)Math.random()-0.5f), 4.0f * ((float)Math.random()-0.5f), 20));
             return ;
         }
     }
@@ -84,7 +84,7 @@ public class HomingBullet extends Entity {
     public Rectangle2D boundingBox()
     {
         return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                2.f*HALFWIDTH, 2.f*HALFHEIGHT);
+                2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
     }
 
     @Override

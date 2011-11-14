@@ -15,25 +15,25 @@ import fr.larez.danmaku.utils.DrawingUtils;
  */
 public class SimpleEnemy extends Enemy {
 
-    static final float HALFWIDTH = 8.f;
-    static final float HALFHEIGHT = 8.f;
+    private static final float HALFWIDTH = 8.0f;
+    private static final float HALFHEIGHT = 8.0f;
 
     public SimpleEnemy()
     {
-        this(HALFWIDTH + (float)Math.random() * (Application.FIELD_WIDTH-2*HALFWIDTH));
+        this(HALFWIDTH + (float)Math.random() * (Application.FIELD_WIDTH - 2.0f*HALFWIDTH));
     }
 
     public SimpleEnemy(float x)
     {
-        super(18.f);
+        super(18.0f);
         m_PosX = x;
-        m_PosY = -HALFHEIGHT - 2.f;
+        m_PosY = -HALFHEIGHT - 2.0f;
     }
 
     @Override
     public void update(long simuTime)
     {
-        m_PosY += 2.5f;
+        m_PosY += 2.5;
         if(dying())
         {
             // TODO : Spawn some shiny particles
@@ -55,7 +55,7 @@ public class SimpleEnemy extends Enemy {
     public Rectangle2D boundingBox()
     {
         return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                2.f*HALFWIDTH, 2.f*HALFHEIGHT);
+                2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
     }
 
     @Override

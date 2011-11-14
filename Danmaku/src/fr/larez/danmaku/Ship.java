@@ -16,13 +16,13 @@ public class Ship extends Entity {
     /**
      * Ship movement speed, in pixels per millisecond.
      */
-    static final float MOVE_SPEED = 3.f;
+    private static final float MOVE_SPEED = 3.0f;
 
-    static final float HALFWIDTH = 32.f;
-    static final float HALFHEIGHT = 32.f;
+    private static final float HALFWIDTH = 32.0f;
+    private static final float HALFHEIGHT = 32.0f;
 
     // Relative to the center
-    private static final Rectangle2D COLLISION = new Rectangle2D.Float(-3.f, 1.f, 6.f, 6.f);
+    private static final Rectangle2D COLLISION = new Rectangle2D.Float(-3.0f, 1.0f, 6.0f, 6.0f);
 
     private long m_LastStraitBullets = 0;
     private long m_LastHomingBullets = 0;
@@ -34,8 +34,8 @@ public class Ship extends Entity {
 
     void reset()
     {
-        m_PosX = Application.FIELD_WIDTH*.5f;
-        m_PosY = 550.f;
+        m_PosX = Application.FIELD_WIDTH*0.5f;
+        m_PosY = 550.0f;
     }
 
     @Override
@@ -64,19 +64,19 @@ public class Ship extends Entity {
         // Shoot
         if(Keyboard.isKeyDown(Keyboard.KEY_W))
         {
-            if(simuTime > m_LastStraitBullets + 198)
+            if(simuTime >= m_LastStraitBullets + 200)
             {
-                Application.addEntity(new StraightBullet(m_PosX - 3.f, m_PosY - 30.f, -0.3f, -15.f));
-                Application.addEntity(new StraightBullet(m_PosX + 3.f, m_PosY - 30.f, +0.3f, -15.f));
+                Application.addEntity(new StraightBullet(m_PosX - 3.0f, m_PosY - 30.0f, -0.30f, -15.0f));
+                Application.addEntity(new StraightBullet(m_PosX + 3.0f, m_PosY - 30.0f, +0.30f, -15.0f));
                 m_LastStraitBullets = simuTime;
                 Application.gainPoints(2);
                 // Yeah, we gain points for shooting, because WHY NOT!?
             }
-            if(simuTime > m_LastHomingBullets + 498)
+            if(simuTime >= m_LastHomingBullets + 500)
             {
                 // Find a target for the bullets
                 Entity best = null;
-                float sqDist = 99999999.f;
+                float sqDist = 99999999.0f;
                 for(Entity target : Application.entities())
                 {
                     if((target.type() & Entity.ENEMY) == 0)
@@ -89,8 +89,8 @@ public class Ship extends Entity {
                         sqDist = sq;
                     }
                 }
-                Application.addEntity(new HomingBullet(m_PosX - 19.f, m_PosY - 6.f, -4.f, -10.f, best));
-                Application.addEntity(new HomingBullet(m_PosX + 19.f, m_PosY - 6.f, +4.f, -10.f, best));
+                Application.addEntity(new HomingBullet(m_PosX - 19.0f, m_PosY - 6.0f, -4.0f, -10.0f, best));
+                Application.addEntity(new HomingBullet(m_PosX + 19.0f, m_PosY - 6.0f, +4.0f, -10.0f, best));
                 m_LastHomingBullets = simuTime;
             }
         }
@@ -110,24 +110,24 @@ public class Ship extends Entity {
     @Override
     public void render()
     {
-    	// Blinking (period=200ms) when invulnerable
-    	if( (Application.lastHit() + Application.INVULN_ON_HIT < Application.simulatedTime())
-    	 || ( (Application.simulatedTime()/200) % 2 == 0) )
-    	{
-	        TextureManager.ship.bind();
-	        DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-	                m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
-    	}
+        // Blinking (period=200ms) when invulnerable
+        if( (Application.lastHit() + Application.INVULN_ON_HIT < Application.simulatedTime())
+         || ( (Application.simulatedTime()/200) % 2 == 0) )
+        {
+            TextureManager.ship.bind();
+            DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
+                    m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
+        }
     }
 
     @Override
     public Rectangle2D boundingBox()
     {
         return new Rectangle2D.Float(
-        		m_PosX + (float)COLLISION.getX(),
-        		m_PosY + (float)COLLISION.getY(),
-        		(float)COLLISION.getWidth(),
-        		(float)COLLISION.getHeight());
+                m_PosX + (float)COLLISION.getX(),
+                m_PosY + (float)COLLISION.getY(),
+                (float)COLLISION.getWidth(),
+                (float)COLLISION.getHeight());
     }
 
     @Override

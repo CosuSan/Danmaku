@@ -38,8 +38,8 @@ public class Particle extends Entity {
         }
 
         // Death
-        if(m_PosX < 0 || m_PosX >= Application.FIELD_WIDTH
-        || m_PosY < 0 || m_PosY >= Application.FIELD_HEIGHT)
+        if(m_PosX < 0.0f || m_PosX >= Application.FIELD_WIDTH
+        || m_PosY < 0.0f || m_PosY >= Application.FIELD_HEIGHT)
         {
             m_Alive = false; // Remove this entity
             return ;

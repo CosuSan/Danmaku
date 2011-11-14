@@ -50,7 +50,7 @@ public class DrawingUtils {
 
     public static void translate(float x, float y)
     {
-        GL11.glTranslatef(x, y, 0.f);
+        GL11.glTranslated(x, y, 0.0f);
     }
 
     public static void reset()

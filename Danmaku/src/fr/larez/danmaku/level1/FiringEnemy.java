@@ -15,42 +15,42 @@ import fr.larez.danmaku.utils.DrawingUtils;
  */
 public class FiringEnemy extends Enemy {
 
-    static final float HALFWIDTH = 16.f;
-    static final float HALFHEIGHT = 16.f;
+    private static final float HALFWIDTH = 16.0f;
+    private static final float HALFHEIGHT = 16.0f;
 
     private long m_LastFired = -99999;
 
     public FiringEnemy()
     {
-        this(HALFWIDTH + (float)Math.random() * (Application.FIELD_WIDTH-2*HALFWIDTH));
+        this(HALFWIDTH + (float)Math.random() * (Application.FIELD_WIDTH - 2.0f*HALFWIDTH));
     }
 
     public FiringEnemy(float x)
     {
-        super(198.f);
+        super(198.0f);
         m_PosX = x;
-        m_PosY = -HALFHEIGHT - 2.f;
+        m_PosY = -HALFHEIGHT - 2.0f;
     }
 
     @Override
     public void update(long simuTime)
     {
-    	if(m_PosY <= 100.f)
-    		m_PosY += 2.f;
-    	else if(m_PosY <= 450.f)
-    		m_PosY += 0.5f;
-    	else
-    		m_PosY += 4.f;
+        if(m_PosY <= 100.0f)
+            m_PosY += 2.0f;
+        else if(m_PosY <= 450.0f)
+            m_PosY += 0.5f;
+        else
+            m_PosY += 4.0f;
 
-        if(m_PosY >= 100.f && m_PosY <= 400.f && simuTime >= m_LastFired + 2500)
+        if(m_PosY >= 100.0f && m_PosY <= 400.0f && simuTime >= m_LastFired + 2500)
         {
-        	for(float a = 0.f; a <= 1.99f*Math.PI; a += 0.125f*Math.PI)
-        	{
-        		final float COS = (float)Math.cos(a);
-        		final float SIN = (float)Math.sin(a);
-        		Application.addEntity(new Projectile(m_PosX + 10.f*COS, m_PosY + 10.f*SIN, 2.f*COS, 2.f*SIN));
-        	}
-        	m_LastFired = simuTime;
+            for(float a = 0.0f; a <= 1.99f*Math.PI; a += 0.125f*Math.PI)
+            {
+                final float COS = (float)Math.cos(a);
+                final float SIN = (float)Math.sin(a);
+                Application.addEntity(new Projectile(m_PosX + 10.0f*COS, m_PosY + 10.0f*SIN, 2.0f*COS, 2.0f*SIN));
+            }
+            m_LastFired = simuTime;
         }
         if(dying())
         {
@@ -68,12 +68,12 @@ public class FiringEnemy extends Enemy {
         TextureManager.enemy1.bind();
         DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT, m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
         TextureManager.smallParticle.bind();
-        for(float a = 0.f; a <= 1.99f*Math.PI; a += 0.5f*Math.PI)
+        for(float a = 0.0f; a <= 1.99f*Math.PI; a += 0.5f*Math.PI)
         {
-        	final float aa = a + Application.simulatedTime()*(float)Math.PI*1.E-3f;
-        	float x = m_PosX + 20.f*(float)Math.cos(aa);
-        	float y = m_PosY + 20.f*(float)Math.sin(aa);
-        	DrawingUtils.drawRect(x - 2.f, y - 2.f, x + 2.f, y + 2.f);
+            final float aa = a + Application.simulatedTime()*(float)Math.PI*1.E-3f;
+            float x = m_PosX + 20.0f*(float)Math.cos(aa);
+            float y = m_PosY + 20.0f*(float)Math.sin(aa);
+            DrawingUtils.drawRect(x - 2.0f, y - 2.0f, x + 2.0f, y + 2.0f);
         }
     }
 
@@ -81,7 +81,7 @@ public class FiringEnemy extends Enemy {
     public Rectangle2D boundingBox()
     {
         return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                2.f*HALFWIDTH, 2.f*HALFHEIGHT);
+                2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
     }
 
     @Override
