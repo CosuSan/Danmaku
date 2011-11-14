@@ -15,7 +15,7 @@ public class TextureManager {
     private static boolean init = false;
 
     public static Texture ship;
-    public static Texture straitBullet;
+    public static Texture straightBullet;
     public static Texture homingBullet;
     public static Texture enemy1;
     public static Texture smallParticle;
@@ -26,7 +26,7 @@ public class TextureManager {
         try
         {
             ship = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/ship.png"));
-            straitBullet = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/bullet.png"));
+            straightBullet = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/bullet.png"));
             homingBullet = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/bigbullet.png"));
             enemy1 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/enemy1.png"));
             smallParticle = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/smallparticle.png"));
