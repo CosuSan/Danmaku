@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.opengl.Texture;
 
 import fr.larez.danmaku.utils.DrawingUtils;
 import fr.larez.danmaku.utils.MathUtils;
@@ -16,7 +17,7 @@ public class Ship extends Entity {
     /**
      * Ship movement speed, in pixels per millisecond.
      */
-    private static final float MOVE_SPEED = 3.0f;
+    private static final float MOVE_SPEED = 4.0f;
 
     private static final float HALFWIDTH = 32.0f;
     private static final float HALFHEIGHT = 32.0f;
@@ -35,7 +36,7 @@ public class Ship extends Entity {
     void reset()
     {
         m_PosX = Application.FIELD_WIDTH*0.5f;
-        m_PosY = 550.0f;
+        m_PosY = 500.0f;
     }
 
     @Override
@@ -99,6 +100,19 @@ public class Ship extends Entity {
         Entity other = Application.collide(this, Entity.ENEMY_BULLET);
         if(other != null)
             hit(simuTime);
+
+        // Rocket engine particle effect
+        if(simuTime % 40 == 0)
+        {
+            Texture particle = null;
+            switch((int)(Math.random()*3.0))
+            {
+            case 0: particle = TextureManager.fire1; break;
+            case 1: particle = TextureManager.fire2; break;
+            case 2: particle = TextureManager.fire3; break;
+            }
+            Application.addEntity(new Particle(particle, m_PosX, m_PosY + 24.0f, (float)(Math.random()-0.5)*2.0f, 2.5f, 10, true));
+        }
     }
 
     private void hit(long simuTime)

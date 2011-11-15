@@ -19,23 +19,32 @@ public class TextureManager {
     public static Texture homingBullet;
     public static Texture enemy1;
     public static Texture smallParticle;
+    public static Texture fire1, fire2, fire3;
 
     public static void loadAll()
     {
         if(init) return ;
         try
         {
-            ship = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/ship.png"));
-            straightBullet = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/bullet.png"));
-            homingBullet = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/bigbullet.png"));
-            enemy1 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/enemy1.png"));
-            smallParticle = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/smallparticle.png"));
+            ship = load("res/ship.png");
+            straightBullet = load("res/bullet.png");
+            homingBullet = load("res/bigbullet.png");
+            enemy1 = load("res/enemy1.png");
+            smallParticle = load("res/smallparticle.png");
+            fire1 = load("res/fire1.png");
+            fire2 = load("res/fire2.png");
+            fire3 = load("res/fire3.png");
         } catch(Exception e) {
             System.err.println("Exception happened loading textures");
             e.printStackTrace();
             System.exit(1);
         }
         init = true;
+    }
+
+    private static Texture load(String path) throws Exception
+    {
+        return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(path));
     }
 
 }

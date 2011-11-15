@@ -2,6 +2,8 @@ package fr.larez.danmaku;
 
 import java.awt.geom.Rectangle2D;
 
+import org.lwjgl.opengl.GL11;
+
 import fr.larez.danmaku.utils.DrawingUtils;
 
 /**
@@ -45,7 +47,7 @@ public class StraightBullet extends Entity {
             m_Alive = false;
             for(int i = 0; i < 10; ++i)
                 Application.addEntity(new Particle(TextureManager.smallParticle,
-                        m_PosX, m_PosY, 4.0f * ((float)Math.random()-0.5f), 4.0f * ((float)Math.random()-0.5f), 20));
+                        m_PosX, m_PosY, 4.0f * ((float)Math.random()-0.5f), 4.0f * ((float)Math.random()-0.5f), 20, true));
             return ;
         }
     }
@@ -54,7 +56,9 @@ public class StraightBullet extends Entity {
     public void render()
     {
         TextureManager.straightBullet.bind();
+        GL11.glColor4f(0.6f, 0.6f, 1.0f, 0.6f);
         DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT, m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     @Override
