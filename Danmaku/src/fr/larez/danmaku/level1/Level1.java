@@ -44,7 +44,10 @@ public class Level1 extends Level {
         else if(simuTime == 11000)
             Application.addEntity(new FiringEnemy(Application.FIELD_WIDTH*0.2f));
         else if(simuTime == 30000)
+        {
+            Application.gainPoints(1000);
             m_Finished = true;
+        }
     }
 
     @Override

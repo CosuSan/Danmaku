@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 
 import fr.larez.danmaku.utils.DrawingUtils;
 import fr.larez.danmaku.utils.MathUtils;
@@ -115,16 +116,14 @@ public class Application {
         for(Level level : levels)
         {
             play(level);
-            if(Display.isCloseRequested())
-            {
-                Display.destroy();
-                return ;
-            }
-            else if(m_NbLives <= 0)
+            if(m_NbLives <= 0)
                 break;
         }
 
-        // TODO : Game over screen, with score
+        // Game over screen
+        gameover();
+
+        Display.destroy();
     }
 
     void play(Level level)
@@ -145,7 +144,9 @@ public class Application {
         // Setup the ship
         m_Entities.add(m_Ship = new Ship());
 
-        while (!Display.isCloseRequested() && !level.finished() && m_NbLives > 0)
+        boolean paused = false;
+
+        while (!level.finished() && m_NbLives > 0)
         {
             long now = getTime();
 
@@ -160,8 +161,15 @@ public class Application {
 
             Keyboard.poll();
 
+            // If the computer can't keep up we should pause
+            if(!paused && now > lastFrameTime + 20 * SIMULATION_STEP)
+            {
+                System.err.println("Warning: can't keep up! delta=" + (now - lastFrameTime) + "ms");
+                paused = true;
+            }
+
             // Simulation
-            while(now > lastFrameTime + SIMULATION_STEP)
+            while(!paused && now > lastFrameTime + SIMULATION_STEP)
             {
                 lastFrameTime += SIMULATION_STEP;
                 m_SimuTime += SIMULATION_STEP;
@@ -210,6 +218,25 @@ public class Application {
             // Level foreground
             level.renderForeground(m_SimuTime);
 
+            // Pause screen
+            if(paused)
+            {
+                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                GL11.glColor4f(0.8f, 0.4f, 0.4f, 0.7f);
+                DrawingUtils.drawRect(0.0f, 0.0f, FIELD_WIDTH, FIELD_HEIGHT);
+                DrawingUtils.drawText(100.0f, 100.0f, "PAUSED - press enter", new Color(0.6f, 0.0f, 0.8f, 1.0f));
+                GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+                if(Keyboard.isKeyDown(Keyboard.KEY_RETURN))
+                {
+                    paused = false;
+                    lastFrameTime = now;
+                }
+            }
+
+            if(Keyboard.isKeyDown(Keyboard.KEY_PAUSE))
+                paused = true;
+
             DrawingUtils.reset();
 
             DrawingUtils.drawText(570.0f, 100.0f, "Score: " + m_Score);
@@ -231,6 +258,36 @@ public class Application {
                 lastFPSUpdate = now;
                 frames = 0;
             }
+
+            // Emergency exit
+            if(Display.isCloseRequested())
+            {
+                Display.destroy();
+                System.exit(0);
+            }
+        }
+    }
+
+    private void gameover()
+    {
+        while (!Display.isCloseRequested())
+        {
+            Keyboard.poll();
+
+            if(Keyboard.isKeyDown(Keyboard.KEY_RETURN))
+                break;
+
+            // Clear the screen and depth buffer
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+
+            DrawingUtils.drawText(300.0f, 200.0f, "GAME OVER !");
+            DrawingUtils.drawText(250.0f, 350.0f, "Your score: " + m_Score);
+            DrawingUtils.drawText(250.0f, 450.0f, "Press enter to exit");
+
+            Display.update();
+
+            // FPS limit
+            Display.sync(25);
         }
     }
 
