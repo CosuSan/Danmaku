@@ -1,11 +1,10 @@
 package fr.larez.danmaku;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
 
 import fr.larez.danmaku.utils.DrawingUtils;
+import fr.larez.danmaku.utils.Rectanglef;
 
 /**
  * Bullets that are fired from the ship and automatically follow an Entity.
@@ -33,10 +32,10 @@ public class HomingBullet extends Entity {
         // Homing!
         if(m_Target != null && m_Target.alive())
         {
-            Point2D targetPos = m_Target.position();
+            Vector2f targetPos = m_Target.position();
 
-            float x = (float)targetPos.getX() - m_PosX;
-            float y = (float)targetPos.getY() - m_PosY;
+            float x = targetPos.getX() - m_PosX;
+            float y = targetPos.getY() - m_PosY;
 
             float d = x*x + y*y;
             if(d > 100.0f)
@@ -85,9 +84,9 @@ public class HomingBullet extends Entity {
     }
 
     @Override
-    public Rectangle2D boundingBox()
+    public Rectanglef boundingBox()
     {
-        return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
+        return new Rectanglef(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
                 2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
     }
 

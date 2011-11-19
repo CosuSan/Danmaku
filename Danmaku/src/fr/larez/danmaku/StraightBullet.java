@@ -1,10 +1,9 @@
 package fr.larez.danmaku;
 
-import java.awt.geom.Rectangle2D;
-
 import org.lwjgl.opengl.GL11;
 
 import fr.larez.danmaku.utils.DrawingUtils;
+import fr.larez.danmaku.utils.Rectanglef;
 
 /**
  * Bullets that are fired from the ship and fly in a straight line.
@@ -62,9 +61,9 @@ public class StraightBullet extends Entity {
     }
 
     @Override
-    public Rectangle2D boundingBox()
+    public Rectanglef boundingBox()
     {
-        return new Rectangle2D.Float(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
+        return new Rectanglef(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
                 2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
     }
 

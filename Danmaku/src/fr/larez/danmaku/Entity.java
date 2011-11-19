@@ -1,7 +1,8 @@
 package fr.larez.danmaku;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import org.lwjgl.util.vector.Vector2f;
+
+import fr.larez.danmaku.utils.Rectanglef;
 
 /**
  * An Entity, i.e. any kind of object.
@@ -39,15 +40,15 @@ public abstract class Entity {
      * @return The bounding rectangle of this Entity, used for collision
      * detection.
      */
-    public abstract Rectangle2D boundingBox();
+    public abstract Rectanglef boundingBox();
 
     /**
      * @return The position of this Entity (for instance, the center of the
      * bounding rectangle).
      */
-    public final Point2D position()
+    public final Vector2f position()
     {
-        return new Point2D.Float(m_PosX, m_PosY);
+        return new Vector2f(m_PosX, m_PosY);
     }
 
     /**

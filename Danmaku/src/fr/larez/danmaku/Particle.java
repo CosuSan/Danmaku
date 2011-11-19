@@ -1,11 +1,10 @@
 package fr.larez.danmaku;
 
-import java.awt.geom.Rectangle2D;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
 import fr.larez.danmaku.utils.DrawingUtils;
+import fr.larez.danmaku.utils.Rectanglef;
 
 /**
  * Any kind of particle emitted for graphical purposes.
@@ -64,7 +63,7 @@ public class Particle extends Entity {
     }
 
     @Override
-    public Rectangle2D boundingBox()
+    public Rectanglef boundingBox()
     {
         return null;
     }

@@ -1,13 +1,12 @@
 package fr.larez.danmaku;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import fr.larez.danmaku.utils.DrawingUtils;
 import fr.larez.danmaku.utils.MathUtils;
+import fr.larez.danmaku.utils.Rectanglef;
 
 /**
  * The ship, i.e. the Entity controlled by the player.
@@ -23,7 +22,7 @@ public class Ship extends Entity {
     private static final float HALFHEIGHT = 32.0f;
 
     // Relative to the center
-    private static final Rectangle2D COLLISION = new Rectangle2D.Float(-3.0f, 1.0f, 6.0f, 6.0f);
+    private static final Rectanglef COLLISION = new Rectanglef(-3.0f, 1.0f, 6.0f, 6.0f);
 
     private long m_LastStraitBullets = 0;
     private long m_LastHomingBullets = 0;
@@ -82,8 +81,8 @@ public class Ship extends Entity {
                 {
                     if((target.type() & Entity.ENEMY) == 0)
                         continue;
-                    Point2D t = target.position();
-                    float sq = MathUtils.square((float)t.getX() - m_PosX) + MathUtils.square((float)t.getY() - m_PosY);
+                    Vector2f t = target.position();
+                    float sq = MathUtils.square(t.getX() - m_PosX) + MathUtils.square(t.getY() - m_PosY);
                     if(sq < sqDist)
                     {
                         best = target;
@@ -135,13 +134,13 @@ public class Ship extends Entity {
     }
 
     @Override
-    public Rectangle2D boundingBox()
+    public Rectanglef boundingBox()
     {
-        return new Rectangle2D.Float(
-                m_PosX + (float)COLLISION.getX(),
-                m_PosY + (float)COLLISION.getY(),
-                (float)COLLISION.getWidth(),
-                (float)COLLISION.getHeight());
+        return new Rectanglef(
+                m_PosX + COLLISION.getX(),
+                m_PosY + COLLISION.getY(),
+                COLLISION.getWidth(),
+                COLLISION.getHeight());
     }
 
     @Override
