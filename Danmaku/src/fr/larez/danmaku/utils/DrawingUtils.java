@@ -11,7 +11,8 @@ public class DrawingUtils {
 
     private static TrueTypeFont ttfFont;
 
-    static {
+    public static void loadFont()
+    {
         try {
             Font awtFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("res/font.ttf"));
             awtFont = awtFont.deriveFont(20.f);

@@ -99,6 +99,9 @@ public class Application {
 
         // Load the textures
         TextureManager.loadAll();
+
+        // Load the font
+        DrawingUtils.loadFont();
     }
 
     void start()
