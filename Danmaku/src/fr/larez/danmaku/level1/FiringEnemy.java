@@ -1,5 +1,7 @@
 package fr.larez.danmaku.level1;
 
+import org.lwjgl.opengl.GL11;
+
 import fr.larez.danmaku.Application;
 import fr.larez.danmaku.Enemy;
 import fr.larez.danmaku.Entity;
@@ -14,8 +16,11 @@ import fr.larez.danmaku.utils.Rectanglef;
  */
 public class FiringEnemy extends Enemy {
 
-    private static final float HALFWIDTH = 16.0f;
-    private static final float HALFHEIGHT = 16.0f;
+    private static final float HALFWIDTH = 32.0f;
+    private static final float HALFHEIGHT = 32.0f;
+
+    private static final float HALFCOLWIDTH = 24.0f;
+    private static final float HALFCOLHEIGHT = 24.0f;
 
     private long m_LastFired = -99999;
 
@@ -47,7 +52,7 @@ public class FiringEnemy extends Enemy {
             {
                 final float COS = (float)Math.cos(a);
                 final float SIN = (float)Math.sin(a);
-                Application.addEntity(new Projectile(m_PosX + 10.0f*COS, m_PosY + 10.0f*SIN, 2.0f*COS, 2.0f*SIN));
+                Application.addEntity(new Projectile(m_PosX + 30.0f*COS, m_PosY + 30.0f*SIN, 2.0f*COS, 2.0f*SIN));
             }
             m_LastFired = simuTime;
         }
@@ -64,23 +69,20 @@ public class FiringEnemy extends Enemy {
     @Override
     public void render()
     {
-        TextureManager.enemy1.bind();
-        DrawingUtils.drawRect(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT, m_PosX + HALFWIDTH, m_PosY + HALFHEIGHT);
-        TextureManager.smallParticle.bind();
-        for(float a = 0.0f; a <= 1.99f*Math.PI; a += 0.5f*Math.PI)
-        {
-            final float aa = a + Application.simulatedTime()*(float)Math.PI*1.E-3f;
-            float x = m_PosX + 20.0f*(float)Math.cos(aa);
-            float y = m_PosY + 20.0f*(float)Math.sin(aa);
-            DrawingUtils.drawRect(x - 2.0f, y - 2.0f, x + 2.0f, y + 2.0f);
-        }
+        final float a = Application.simulatedTime()*0.2f;
+        TextureManager.enemy2.bind();
+        GL11.glPushMatrix();
+        GL11.glTranslatef(m_PosX, m_PosY, 0.0f);
+        GL11.glRotatef(a, 0.0f, 0.0f, 1.0f);
+        DrawingUtils.drawRect(-HALFWIDTH, -HALFHEIGHT, +HALFWIDTH, +HALFHEIGHT);
+        GL11.glPopMatrix();
     }
 
     @Override
     public Rectanglef boundingBox()
     {
-        return new Rectanglef(m_PosX - HALFWIDTH, m_PosY - HALFHEIGHT,
-                2.0f*HALFWIDTH, 2.0f*HALFHEIGHT);
+        return new Rectanglef(m_PosX - HALFCOLWIDTH, m_PosY - HALFCOLHEIGHT,
+                2.0f*HALFCOLWIDTH, 2.0f*HALFCOLHEIGHT);
     }
 
     @Override

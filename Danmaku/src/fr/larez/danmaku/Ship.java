@@ -66,8 +66,8 @@ public class Ship extends Entity {
         {
             if(simuTime >= m_LastStraitBullets + 200)
             {
-                Application.addEntity(new StraightBullet(m_PosX - 3.0f, m_PosY - 30.0f, -0.30f, -15.0f));
-                Application.addEntity(new StraightBullet(m_PosX + 3.0f, m_PosY - 30.0f, +0.30f, -15.0f));
+                Application.addEntity(new StraightBullet(m_PosX - 5.0f, m_PosY - 20.0f, -0.30f, -15.0f));
+                Application.addEntity(new StraightBullet(m_PosX + 5.0f, m_PosY - 20.0f, +0.30f, -15.0f));
                 m_LastStraitBullets = simuTime;
                 Application.gainPoints(2);
                 // Yeah, we gain points for shooting, because WHY NOT!?
@@ -89,8 +89,8 @@ public class Ship extends Entity {
                         sqDist = sq;
                     }
                 }
-                Application.addEntity(new HomingBullet(m_PosX - 19.0f, m_PosY - 6.0f, -4.0f, -10.0f, best));
-                Application.addEntity(new HomingBullet(m_PosX + 19.0f, m_PosY - 6.0f, +4.0f, -10.0f, best));
+                Application.addEntity(new HomingBullet(m_PosX - 23.0f, m_PosY - 2.0f, -3.0f, -10.0f, best));
+                Application.addEntity(new HomingBullet(m_PosX + 23.0f, m_PosY - 2.0f, +3.0f, -10.0f, best));
                 m_LastHomingBullets = simuTime;
             }
         }
@@ -110,7 +110,8 @@ public class Ship extends Entity {
             case 1: particle = TextureManager.fire2; break;
             case 2: particle = TextureManager.fire3; break;
             }
-            Application.addEntity(new Particle(particle, m_PosX, m_PosY + 24.0f, (float)(Math.random()-0.5)*2.0f, 2.5f, 10, true));
+            Application.addEntity(new Particle(particle, m_PosX-5.0f, m_PosY + 31.0f, (float)(Math.random()-0.5)*2.0f, 2.5f, 10, true));
+            Application.addEntity(new Particle(particle, m_PosX+5.0f, m_PosY + 31.0f, (float)(Math.random()-0.5)*2.0f, 2.5f, 10, true));
         }
     }
 

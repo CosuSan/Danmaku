@@ -18,6 +18,7 @@ public class TextureManager {
     public static Texture straightBullet;
     public static Texture homingBullet;
     public static Texture enemy1;
+    public static Texture enemy2;
     public static Texture smallParticle;
     public static Texture fire1, fire2, fire3;
 
@@ -30,6 +31,7 @@ public class TextureManager {
             straightBullet = load("res/bullet.png");
             homingBullet = load("res/bigbullet.png");
             enemy1 = load("res/enemy1.png");
+            enemy2 = load("res/enemy2.png");
             smallParticle = load("res/smallparticle.png");
             fire1 = load("res/fire1.png");
             fire2 = load("res/fire2.png");
