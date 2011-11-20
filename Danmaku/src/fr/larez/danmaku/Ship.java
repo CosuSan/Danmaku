@@ -22,7 +22,7 @@ public class Ship extends Entity {
     private static final float HALFHEIGHT = 32.0f;
 
     // Relative to the center
-    private static final Rectanglef COLLISION = new Rectanglef(-3.0f, 1.0f, 6.0f, 6.0f);
+    private static final Rectanglef COLLISION = new Rectanglef(-3.0f, 6.0f, 6.0f, 6.0f);
 
     private long m_LastStraitBullets = 0;
     private long m_LastHomingBullets = 0;
